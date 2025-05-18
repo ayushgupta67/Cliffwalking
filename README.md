@@ -44,10 +44,3 @@ The CliffWalking-v0 environment is a 4x12 grid. The start state is at the bottom
 - Used as a performance baseline.
 
 ---
-
-## ⚙️ Setup Instructions
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/ayushgupta67/Cliffwalking.git
-   cd Cliffwalking
