@@ -1,46 +1,67 @@
-# Cliffwalking
-# 🧗‍♂️ Cliffwalking - Reinforcement Learning Agents
+# CliffWalking 🧗‍♂️  
+Reinforcement Learning Agents solving the classic **CliffWalking-v0** environment from OpenAI Gym.
 
-This repository contains implementations of reinforcement learning algorithms to solve the classic **CliffWalking-v0** environment from OpenAI Gym. The goal is to navigate a gridworld from a start point to a goal point without falling off the cliff — an ideal setup to understand **on-policy** and **off-policy** learning.
+---
 
-## 📌 Environment Description
+## Overview
 
-The CliffWalking-v0 environment is a 4x12 grid. The start state is at the bottom-left corner and the goal state is at the bottom-right. The bottom row between them is the "cliff". Stepping into the cliff gives a reward of -100 and ends the episode. All other actions yield a reward of -1.
+This repository implements fundamental reinforcement learning algorithms — **Q-Learning** and **SARSA** — to train agents to navigate the CliffWalking gridworld environment. The goal is to move an agent from the start state to the goal without stepping into the "cliff" region, which results in a heavy penalty.
 
-<p align="center">
-  <img src="https://gymnasium.farama.org/_images/cliffwalking.gif" width="400">
-</p>
+The environment provides an intuitive way to explore **on-policy** (SARSA) vs **off-policy** (Q-Learning) learning.
+
+A **Random agent** is also included as a baseline for comparison.
+
+Visualization with OpenCV helps track the agent's position on the grid during training.
+
+---
+
+## 📌 Environment: CliffWalking-v0
+
+- **Grid size:** 4 rows × 12 columns  
+- **Start state:** Bottom-left cell (state 36 in flattened form)  
+- **Goal:** Bottom-right cell  
+- **Cliff:** Bottom row cells between start and goal (positions 37 to 46)  
+- **Actions:** {Up, Right, Down, Left} represented as {0, 1, 2, 3}  
+- **Rewards:**  
+  - `-1` for each step (to encourage shortest paths)  
+  - `-100` for stepping into the cliff (episode terminates)  
+
+The goal is to maximize cumulative reward by reaching the goal safely.
+
+---
+
+## 🔹 Algorithms Implemented
+
+| Algorithm  | Type           | Description                                       | Update Formula                                      |
+|------------|----------------|-------------------------------------------------|----------------------------------------------------|
+| Q-Learning | Off-policy TD  | Learns optimal policy independent of behavior. More exploratory, faster convergence. | `Q[state][action] += α * (reward + γ * max(Q[next_state]) - Q[state][action])` |
+| SARSA      | On-policy TD   | Learns policy based on agent's own trajectory. More conservative, avoids risky paths near cliff. | `Q[state][action] += α * (reward + γ * Q[next_state][next_action] - Q[state][action])` |
+| Random Agent | Baseline     | Selects random actions, no learning involved.   | N/A                                                |
 
 ---
 
 ## 🗂️ Repository Structure
 
-| File Name         | Description                                                                 |
-|-------------------|-----------------------------------------------------------------------------|
-| `cv_phython.py`   | Contains utility functions used across the agents.                         |
-| `qlearning.py`    | Implements the **Q-Learning** algorithm (off-policy TD control).           |
-| `sarsaagent.py`   | Implements the **SARSA** algorithm (on-policy TD control).                 |
-| `randomagent.py`  | Implements a basic agent that selects actions randomly (used for baseline).|
+| File Name       | Description                                |
+|-----------------|--------------------------------------------|
+| `cv_phython.py`  | Utility functions shared by all agents     |
+| `qlearning.py`   | Q-Learning algorithm implementation        |
+| `sarsaagent.py`  | SARSA algorithm implementation             |
+| `randomagent.py` | Random action agent for baseline performance |
 
 ---
 
-## 🚀 Algorithms Implemented
+## 📋 How to Run
 
-### 🔹 Q-Learning (Off-policy TD)
-- Learns the optimal policy regardless of the agent’s current behavior.
-- More exploratory and converges faster to the optimal solution.
-- Formula:  
-  `Q(s, a) ← Q(s, a) + α [r + γ max_a' Q(s', a') − Q(s, a)]`
+### Prerequisites
 
-### 🔹 SARSA (On-policy TD)
-- Learns the policy based on the agent’s current trajectory.
-- More conservative; avoids risky paths (like near the cliff).
-- Formula:  
-  `Q(s, a) ← Q(s, a) + α [r + γ Q(s', a') − Q(s, a)]`
+- Python 3.x  
+- OpenAI Gym (version with CliffWalking-v0)  
+- NumPy  
+- OpenCV (for visualization)  
 
-### 🔹 Random Agent
-- Does not learn.
-- Takes actions randomly.
-- Used as a performance baseline.
+Install dependencies using pip:
 
----
+```bash
+pip install gymnasium numpy opencv-python
+
